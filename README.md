@@ -61,5 +61,5 @@ There are not many options yet, feel free to make an issue or pull request if yo
 
 | Option            | Type                   | Default                                                                    | Description                                                                                                                                                                                                                                  |
 | ----------------- | ---------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| logAfterTx          | _Boolean_               | true                    | Log gas after each transaction                                                                                         
+| logAfterTx          | _Boolean_               | false                    | Log gas after each transaction                                                                                         
 

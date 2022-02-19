@@ -1,6 +1,6 @@
 {
   "name": "hardhat-gas-trackooor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hardhat plugin to track gas on the transaction level",
   "repository": "github:d3or/hardhat-gas-trackooor",
   "author": "d3or",
@@ -19,7 +19,7 @@
     "lint:fix": "prettier --write 'src/**/*.{js,ts}' 'test/**/*.{js,ts}' && tslint --fix --config tslint.json --project tsconfig.json",
     "lint": "tslint --config tslint.json --project tsconfig.json",
     "test": "npx mocha test/waffle.ts",
-    "prepublishOnly": "tsc --project tsconfig.prod.json",
+    "prepublishOnly": "tsc --project tsconfig.prod.json --resolveJsonModule",
     "build": "tsc --project tsconfig.prod.json --resolveJsonModule",
     "buidl": "tsc",
     "watch": "tsc -w"
