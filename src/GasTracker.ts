@@ -16,32 +16,35 @@ export class GasTracker {
 
     this.gasData = {}; // internal class storage for prev gas data, which can later be written to a file for other usage when needed
     /*
-          Javascript proxy magic!
-        */
+        Javascript proxy magic!
+    */
     const handler = {
-      get(obj: GasTracker, prop: string) {
-        /*
-                    If the prop is just contract, then we return the contract object
-                    If the prob is connect, then we need to return the connect handler, which will handle gas logging when .connect is used.
-                */
-        if (prop === 'contract') {
-          return obj.contract;
-        }
-        if (prop === 'connect') {
-          return this.connectHandler;
-        }
-
-        if (typeof obj.contract[prop] === 'function') {
-          return async function (...args: (string | number)[]) {
-            const response = await this.contract[prop](...args);
-            /* 
-                            if the response has a hash, that means the function call changed some state on the contract, i.e it took up gas, so we log the gas.
-                         */
-            if (response?.hash) {
-              await obj.logGas(args, prop, response.hash);
+        get(obj: GasTracker, prop: string) {
+            /*
+                If the prop is just contract, then we return the contract object
+                If the prob is connect, then we need to return the connect handler, which will handle gas logging when .connect is used.
+            */
+            if (prop === 'contract') {
+            return obj.contract;
             }
-            return response;
-          };
+            if (prop === 'gasData') {
+                return obj.gasData;
+            }
+            if (prop === 'connect') {
+            return this.connectHandler;
+            }
+
+            if (typeof obj.contract[prop] === 'function') {
+            return async function (...args: (string | number)[]) {
+                const response = await this.contract[prop](...args);
+                /* 
+                    if the response has a hash, that means the function call changed some state on the contract, i.e it took up gas, so we log the gas.
+                */
+                if (response?.hash) {
+                await obj.logGas(args, prop, response.hash);
+                }
+                return response;
+            };
         }
 
         // for getting certain properties from the contract, for example contract.address
@@ -61,11 +64,11 @@ export class GasTracker {
         };
       },
 
-      /*  
-                handles the case where .connect is used
-                honestly, dont ask me why this works. but it does.
-            */
-      connectHandler(addr: string) {
+    /*  
+        handles the case where .connect is used
+        honestly, dont ask me why this works. but it does.
+    */
+    connectHandler(addr: string) {
         const connected = this.contract.connect(addr);
         const connectHandlerInner = {
           get(obj: GasTracker, prop: string) {

@@ -11,5 +11,6 @@ describe("Greeter", function () {
     })
     await greeter.setGreeting("Hola, mundo!");
     expect(await greeter.greet()).to.equal("Hola, mundo!");
+    console.log(greeter.gasData);
   });
 });

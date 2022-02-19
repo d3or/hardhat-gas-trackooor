@@ -55,6 +55,24 @@ Or, if you would like to specify which functions you want to get the gas for, yo
 Output:
 ![output](https://imgur.com/vHl0f7l.png)
 
+
+If you do not want to log gas to the console but still want to take advantage of the gas logging, gas data from transactions are logged to `[wrappedContract].GasData`:
+```js
+it("Should return the new greeting once it's changed", async function () {
+    const Greeter = await ethers.getContractFactory("Greeter");
+    const greeter = new GasTracker(await Greeter.deploy("Hello, world!"), {
+      logAfterTx: false, // set to false so it doesn't log
+    })
+    await greeter.setGreeting("Hola, mundo!");
+    expect(await greeter.greet()).to.equal("Hola, mundo!");
+
+    // access gas data through greeter.GasData;
+    const gasData = greeter.gasData;
+    console.log(gasData);
+});
+
+```
+
 ### Options
 
 There are not many options yet, feel free to make an issue or pull request if you want to add any.
