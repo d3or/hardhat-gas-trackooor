@@ -1,6 +1,5 @@
 import type * as ethers from 'ethers';
 
-import * as gasColors from './GasColors.json';
 import { GasData, GasTrackerConfig } from './types';
 
 export class GasTracker {
@@ -9,6 +8,8 @@ export class GasTracker {
   public options: GasTrackerConfig;
 
   public gasData: GasData;
+
+  public highGasThreshold: number = 100000;
 
   constructor(contract: ethers.Contract, options: GasTrackerConfig) {
     this.contract = contract;
@@ -98,18 +99,13 @@ export class GasTracker {
     const reciept = await hre.ethers.provider.getTransactionReceipt(txHash);
     const gas = reciept.gasUsed.toNumber();
 
-    let gasColor: string;
-    if (gas < 50000) {
-      gasColor = gasColors.low;
-    } else if (gas < 100000) {
-      gasColor = gasColors.mid;
-    } else {
-      gasColor = gasColors.high;
-    }
+    let bullet = '•';
+    if (gas > this.highGasThreshold) 
+      bullet = ' ⚠️ ';
+
     if (this?.options?.logAfterTx) {
       console.log(
-        '\x1b' + gasColor,
-        `⛽ ${prop} (${gas} gas) ${gas === 69420 ? 'nice.' : ''}`,
+        `       ${bullet} ${prop} (${gas} gas) ${gas === 69420 ? 'nice.' : ''}`,
       );
     }
     // store gas data for later use / analysis

@@ -1,6 +1,6 @@
 {
   "name": "hardhat-gas-trackooor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Hardhat plugin to track gas on the transaction level",
   "repository": "github:d3or/hardhat-gas-trackooor",
   "author": "d3or",
