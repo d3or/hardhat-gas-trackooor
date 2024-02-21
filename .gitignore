@@ -30,5 +30,7 @@ build/
 
 # project specific
 dist/
-test/hardhat-waffle-project/cache
-test/hardhat-waffle-project/artifacts
+test/example/cache
+test/example/artifacts
+test/example/node_modules
+test/example/typechain-types

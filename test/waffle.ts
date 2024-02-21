@@ -1,11 +1,11 @@
-import { TASK_TEST } from "hardhat/builtin-tasks/task-names";
+import { TASK_TEST } from 'hardhat/builtin-tasks/task-names';
 // tslint:disable-next-line no-implicit-dependencies
-import { useEnvironment } from "./helpers";
+import { useEnvironment } from './helpers';
 
-describe("Waffle plugin with signers", function() {
-  useEnvironment(__dirname + "/hardhat-waffle-project");
+describe('Waffle plugin with signers', function () {
+  useEnvironment(__dirname + '/example');
 
-  it("no options", async function() {
+  it('no options', async function () {
     await this.env.run(TASK_TEST, { testFiles: [] });
   });
 });

@@ -1,4 +1,4 @@
 export async function GetGas(transaction) {
   const reciept = await transaction.wait();
-  return reciept.gasUsed.toNumber();
+  return parseInt(reciept.gasUsed.toString(), 10);
 }
