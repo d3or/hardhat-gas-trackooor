@@ -3,7 +3,7 @@ import type * as ethers from 'ethers';
 import { GasData, GasTrackerConfig } from './types';
 
 export class GasTracker {
-  public contract: ethers.Contract;
+  public contract: ethers.BaseContract;
 
   public options: GasTrackerConfig;
 
@@ -11,7 +11,14 @@ export class GasTracker {
 
   public highGasThreshold: number = 100000;
 
-  constructor(contract: ethers.Contract, options: GasTrackerConfig) {
+  [key: string]: any;
+
+  constructor(
+    contract: ethers.BaseContract & {
+      deploymentTransaction(): ethers.ContractTransactionResponse;
+    },
+    options: GasTrackerConfig,
+  ) {
     this.contract = contract;
     this.options = options;
 
@@ -97,11 +104,11 @@ export class GasTracker {
     // ok so, the hardhat runtime environment is exposed as a global variable, so we can access it here. but like idk how to type it. so we use @ts-ignore :D
     // @ts-ignore
     const reciept = await hre.ethers.provider.getTransactionReceipt(txHash);
-    const gas = reciept.gasUsed.toNumber();
+    // big int to int
+    const gas = parseInt(reciept.gasUsed.toString());
 
     let bullet = '•';
-    if (gas > this.highGasThreshold) 
-      bullet = ' ⚠️ ';
+    if (gas > this.highGasThreshold) bullet = ' ⚠️ ';
 
     if (this?.options?.logAfterTx) {
       console.log(
