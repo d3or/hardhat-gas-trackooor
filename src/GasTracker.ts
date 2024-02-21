@@ -105,7 +105,7 @@ export class GasTracker {
     // @ts-ignore
     const reciept = await hre.ethers.provider.getTransactionReceipt(txHash);
     // big int to int
-    const gas = parseInt(reciept.gasUsed.toString());
+    const gas = parseInt(reciept.gasUsed.toString(), 10);
 
     let bullet = '•';
     if (gas > this.highGasThreshold) bullet = ' ⚠️ ';
